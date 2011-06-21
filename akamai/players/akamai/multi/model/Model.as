@@ -125,6 +125,7 @@ package model {
 		public var timeInterval:Number = 1;
 		public var directPlay:Boolean = false;
 		public var singleItemInXML:Boolean;
+		public var playingState:Boolean = true;
 		// -------- end --------------
 		
 		//Declare private constants
@@ -260,7 +261,7 @@ package model {
 			//flashvars.src="http://mediapm.edgesuite.net/edgeflash/public/debug/assets/smil/nelly2.smil";
 			//flashvars.src="http://tfctvhdflashsg-f.akamaihd.net/smil/snn1.smil";
 			//flashvars.src="http://mediapm.edgesuite.net/edgeflash/public/debug/assets/smil/elephants2-sub-clips.smil";
-			flashvars.src="http://localhost/videos/content/20100920-alyna4_sol-240.flv";
+			//flashvars.src="http://localhost/videos/content/20100920-alyna4_sol-240.flv";
 			flashvars.mode = "overlay";
 			flashvars.isPlayable = "1";
 			flashvars.isLogin = "1";

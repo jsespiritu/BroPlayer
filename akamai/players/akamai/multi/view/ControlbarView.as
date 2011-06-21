@@ -79,6 +79,7 @@ package view{
 		private var _subtitleButton:SubtitleButton;
 		private var _popOutButton:PopUp;
 		private var _continousPlayButton:ContinousPlayButton;
+		private var _stopButton:StopButton;
 		
 		private var _pixelView:PixelView;
 		private var _popUpView:PopUpView;
@@ -185,6 +186,19 @@ package view{
 			_pauseButton.y = 6;
 			_pauseButton.visible = _model.autoStart;
 			_container.addChild(_pauseButton);
+			
+			// Add Stop Button
+			_stopButton = new StopButton();
+			_stopButton.addEventListener(MouseEvent.MOUSE_DOWN,genericMouseDown);
+			_stopButton.addEventListener(MouseEvent.MOUSE_UP,genericMouseUp);
+			_stopButton.addEventListener(MouseEvent.CLICK,doStop);
+			_stopButton.x = 45;
+			_stopButton.y = 6;
+			_stopButton.visible = _model.autoStart;
+			_container.addChild(_stopButton);
+			
+			
+			
 			//Add fullscreen button
 			_fullscreenButton = new FullscreenButton();
 //			_fullscreenButton.addEventListener(MouseEvent.MOUSE_OVER,genericMouseOver);
@@ -513,12 +527,26 @@ package view{
 			_playButton.visible = false;
 			_pauseButton.visible = true;
 			_controller.play();
+			_model.playingState = true;
 		}
 		private function doPause(e:MouseEvent):void {
 			_playButton.visible = true;
 			_pauseButton.visible = false;
 			_controller.pause();
+			_model.playingState = false;
 			
+		}
+		private function doStop(e:MouseEvent):void {
+			_playButton.visible = true;
+			_pauseButton.visible = false;
+			_model.stopPlayback();			
+			_model.seek(0);
+			_controller.pause();
+			_model.playingState = false;
+			if(ExternalInterface.available)
+			{
+				ExternalInterface.call("stopPlayback()");
+			}			
 		}
 		
 		private function togglePlaylist(e:MouseEvent):void {
@@ -531,6 +559,12 @@ package view{
 			_controller.toggleShare();
 		}
 		private function endOfItemHandler(e:Event):void {	
+		
+			if(ExternalInterface.available)
+			{
+				ExternalInterface.call("endOfItem()");
+			}			
+		
 			if(!_model.overrideAutoStart)
 			{
 				_playButton.visible = true;
@@ -626,12 +660,18 @@ package view{
 			/* Left Control Bar */
 			_backwardButton.x = availableWidth - availableWidth + 35;
 			_forwardButton.x = availableWidth - availableWidth + 65; 
-			_volumeSlider.x = (_model.hasPlaylist)?availableWidth - availableWidth + 145:availableWidth - availableWidth + 65; 
+			_volumeSlider.x = (_model.hasPlaylist)?availableWidth - availableWidth + 145:availableWidth - availableWidth + 95; 
 
 			/* Right Control Bar*/
 			_fullscreenButton.x = availableWidth - 40;
 			_continousPlayButton.x = availableWidth - 90;
 			_groupListButton.x = availableWidth - 140;
+			
+			/* Disable _continousPlayButton and _groupListButton */
+			_continousPlayButton.visible = false;
+			_groupListButton.visible = false;
+			
+			
 			if(_model.isDynamic)
 			{
 				_HDmeter.x = availableWidth - 250;

@@ -357,20 +357,12 @@ package {
 			if (ExternalInterface.available) {
 				try {
 					ExternalInterface.addCallback( "setNewSource" , setNewSource );
-					ExternalInterface.addCallback("methodName", methodName);					
-					_model.debug("CALL realMethod =============================================== >>>> ");
 				} catch (e:Error) {
 					// don't notify the user since ExternalInterface is not necessary for standard operation;
 				}
 			}
 		}
 
-		private function methodName(str:String):void {
-    	//do something
-			_model.debug("RESPONCE OF realMethod <<<<< =============================================== " + str);
-			_model.pause();
-		}
-		
 		private function createChildren():void {
 			_errorDisplay = new ErrorDisplayView(_model);
 			addChild( _errorDisplay );
@@ -649,7 +641,7 @@ package {
 			contextMenu.hideBuiltInItems();
 
 			//var idItem:ContextMenuItem=new ContextMenuItem("Built on OpenVideoPlayer v"+OvpVersion.version,true);
-			var playerVersion:ContextMenuItem=new ContextMenuItem("ABS-CBN Global Player Ver. 0.9.06072011",true);
+			var playerVersion:ContextMenuItem=new ContextMenuItem("ABS-CBN Global Player Ver. 0.9.06212011",true);
 			//idItem.addEventListener( ContextMenuEvent.MENU_ITEM_SELECT , idItemSelectHandler );
 			contextMenu.customItems.push( playerVersion );
 			
@@ -682,10 +674,10 @@ package {
 
 			contextMenu.customItems.push( nativeOrSmallerItem );
 */
-			var debugItem:ContextMenuItem=new ContextMenuItem("Toggle Statistics Panel",true,true);
-			debugItem.addEventListener( ContextMenuEvent.MENU_ITEM_SELECT , debugItemSelectHandler );
-
-			contextMenu.customItems.push( debugItem );
+//			var debugItem:ContextMenuItem=new ContextMenuItem("Toggle Statistics Panel",true,true);
+//			debugItem.addEventListener( ContextMenuEvent.MENU_ITEM_SELECT , debugItemSelectHandler );
+//
+//			contextMenu.customItems.push( debugItem );
 
 /*			var autoItem:ContextMenuItem=new ContextMenuItem("Enable Auto Bitrate Switching",true,_model.isMultiBitrate&&! _model.useAutoDynamicSwitching);
 			autoItem.addEventListener( ContextMenuEvent.MENU_ITEM_SELECT , autoSwitchHandler );
@@ -723,10 +715,10 @@ package {
 //					contextMenu.customItems[10].enabled=false;
 //				}
 //			}
-			if (contextMenu is ContextMenu)
-			{
-				contextMenu.customItems[2].enabled=true;
-			}
+//			if (contextMenu is ContextMenu)
+//			{
+//				contextMenu.customItems[2].enabled=true;
+//			}
 			
 			dispatchEvent( new Event( "resize" ));
 		}

@@ -66,10 +66,10 @@ package view{
 		public function ScrubBarView(model:Model):void {
 			_model=model;
 			
-//			_leftLabelXPosition = (_model.hasPlaylist)?140:60;
-//			_rightLabelXPosition = (_model.hasPlaylist)?180:100;
-			_leftLabelXPosition = (_model.hasPlaylist)?180:100;
-			_rightLabelXPosition = (_model.hasPlaylist)?220:140;
+//			_leftLabelXPosition = (_model.hasPlaylist)?180:100;
+//			_rightLabelXPosition = (_model.hasPlaylist)?220:140;
+			_leftLabelXPosition = (_model.hasPlaylist)?210:130;
+			_rightLabelXPosition = (_model.hasPlaylist)?250:170;
 			
 			_controller=new ScrubBarController(_model,this);
 			addEventListener(Event.ADDED_TO_STAGE, addReleaseOutsideHandler);

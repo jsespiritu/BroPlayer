@@ -51,7 +51,7 @@ package
      *
      * @see AkamaiMultiPlayer
      */
-    public class TFCPlayer extends MovieClip
+    public class Player extends MovieClip
     {
 		private static const PUBLISHER_PLAYLIST_URL:String = "http://localhost/akamai/players/akamai/multi/orig_feed.xml";
         //private static const PUBLISHER_PLAYLIST_URL:String = "http://localhost/xml/agua.xml";
@@ -71,7 +71,7 @@ package
         /**
          * Constructor
          */
-        public function TFCPlayer():void
+        public function Player():void
         {
 			var _model:Model;
             stage.addEventListener(FullScreenEvent.FULL_SCREEN, exitFullScreen);

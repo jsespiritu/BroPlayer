@@ -143,7 +143,6 @@ package controller{
 			_isMultiBitrate = false;
 			switch (_model.srcType) {	
 				case _model.TYPE_AMD_ONDEMAND :
-					trace("TYPE_AMD_ONDEMAND");
 					this.isHD = false;
 					var host:String = _model.src.split("/")[2] + "/" + _model.src.split("/")[3];
 					_streamName = _model.src.slice(_model.src.indexOf(host) + host.length + 1);
@@ -161,32 +160,27 @@ package controller{
 					connect(host,protocol);
 					break;
 				case _model.TYPE_BOSS_STREAM :
-					trace("TYPE_BOSS_STREAM");
 					this.isHD = false;
 					_mustDetectBandwidth = false;
 					_boss.load(_model.src);
 
 					break;
 				case _model.TYPE_MEDIA_RSS :
-					trace("TYPE_MEDIA_RSS");
 					this.isHD = false;
 					_mustDetectBandwidth = false;
 					_rss.load(_model.src);
 					break;
 				case _model.TYPE_BOSS_PROGRESSIVE :
-					trace("TYPE_BOSS_PROGRESSIVE");
 					this.isHD = false;
 					_streamName = _model.src;
 					connect(null);
 					break;
 				case _model.TYPE_AMD_PROGRESSIVE :
-					trace("TYPE_AMD_PROGRESSIVE");
 					this.isHD = false;
 					_streamName = _model.src;
 					connect(null);
 					break;
 				case _model.TYPE_AMD_LIVE :
-					trace("TYPE_AMD_LIVE");
 					this.isHD = false;
 					var liveHost:String = _model.src.split("/")[2] + "/" + _model.src.split("/")[3];
 					_streamName = _model.src.slice(_model.src.indexOf(liveHost) + liveHost.length + 1);
@@ -196,30 +190,9 @@ package controller{
 					connect(liveHost,protocol);
 					break;
 				case _model.TYPE_MBR_SMIL :
-					trace("TYPE_MBR_SMIL");
-//					_mustDetectBandwidth = false;
-//					_SMILparser.load(_model.src);
-/*					netConnection = new NetConnection();
-					netConnection.connect(null);
-					
-					_nshd = new HDNetStream(netConnection);
-					_nshd.loop = false;
-					var clipStartTime:Number=NaN;
-					var clipEndTime:Number=NaN
-*/
-//					var host:String = _model.src.split("/")[2] + "/" + _model.src.split("/")[3];
-//					var str:String = _model.src.slice(_model.src.indexOf(host) + host.length + 1);
-//					var ext:String = str.slice(-4);
-//					trace("HOST NAME === " + ext );			
 					this.isHD = true;
 					connect(host, protocol);
-/*					var playArgs:Array = [_model.src, clipStartTime, clipEndTime];
-					_nshd.addEventListener(NetStatusEvent.NET_STATUS, netStreamStatusHandler);
-					_nshd.addEventListener(HDEvent.METADATA, onHDMetaData);
-					_nshd.addEventListener(HDEvent.COMPLETE, onComplete);
-					_nshd.play.apply(this, playArgs);
-					_view.video.attachNetStream(_nshd);
-*/					break;
+					break;
 			}
 
 		}
@@ -262,7 +235,6 @@ package controller{
 				{
 					if(_model.directPlay)
 					{
-						trace("----------------------------- single item -------------------------------------" + _model.src);
 						_nshd.play.apply(this, playArgs);
 						_view.video.attachNetStream(_nshd);
 					
@@ -283,7 +255,6 @@ package controller{
 				else
 				{
 					_model.singleItemInXML = (_model.playlistItems.length<2)?true:false;
-					trace("------------------------ whith playlist ------------------------------------------" + _model.src);
 					_nshd.play.apply(this, playArgs);
 					_view.video.attachNetStream(_nshd);
 				
@@ -332,7 +303,6 @@ package controller{
 				if (_mustDetectBandwidth) {
 					_ak.detectBandwidth();
 				} else {
-					trace("------------------------------------------------------------------" + _model.src);
 					playStream();
 				}
 				
@@ -344,7 +314,6 @@ package controller{
 				if (add)
 				{
 					_nshd.addEventListener(HDEvent.IS_BUFFERING, onBuffer);
-					//_nshd.addEventListener(NetStatusEvent.NET_STATUS, netStreamStatusHandler);
 					_nshd.addEventListener(OvpEvent.DEBUG, debugHDHandler);
 					_nshd.addEventListener(HDEvent.METADATA, onHDMetaData);
 					_nshd.addEventListener(HDEvent.COMPLETE, onComplete);
@@ -354,7 +323,6 @@ package controller{
 				else
 				{
 					_nshd.removeEventListener(HDEvent.IS_BUFFERING, onBuffer);
-					//_nshd.removeEventListener(NetStatusEvent.NET_STATUS, netStreamStatusHandler);
 					_nshd.removeEventListener(HDEvent.DEBUG, debugHDHandler);
 					_nshd.removeEventListener(HDEvent.METADATA, onHDMetaData);
 					_nshd.removeEventListener(HDEvent.COMPLETE, onComplete);
@@ -547,43 +515,33 @@ package controller{
 					}
 					
 					_model.streamLength = (_model.streamLength<1?_nshd.duration:_model.streamLength);
-//					if(!_model.streamLength)
-//					{
-//						trace("TOTAL DURATION ===== " + _nshd.duration);
-//						_model.streamLength = _nshd.duration;						
-//					}
 					
 					_model.time = _nshd.time;
-	//				_model.bufferPercentage = _nshd.bufferLength * 100 / _nshd.bufferTime;
-	//				_model.bytesLoaded = _nshd.bytesLoaded;
-	//				_model.bytesTotal = _nshd.bytesTotal;
-	//				_model.bufferLength = _nshd.bufferLength;
-	//				_model.maxBandwidth = Math.round(_nshd.estimatedMaxbandwidth * 8 / 1024);
-	//				_model.currentStreamBitrate = Math.round(_nshd.info.playbackBytesPerSecond * 8 / 1024);
 					_view.invokeResize();
-					// pending ----------
 				}
 			}
 		}
 		
 		private function onBuffer(event:HDEvent):void
 		{
-			//_nshd.bufferLength * 100 / _nshd.bufferTime;
-			//trace(" EVENT DATA ================== " + event.data);
-			//event.data ? trace("===== BUFFERING ====== ") : trace(" ============== hide buffering ================"); 
 			if(event.data)
 			{
 				pauseHandler(null);
-				trace("BUFFERING ========================================================================= >>>>>>>>> ");
+//				trace("BUFFERING ========================================================================= >>>>>>>>> ");
 				_model.isBuffering = true;
-				_model.playStart();
+				if(_model.playingState)
+				{
+					_model.playStart();
+				}
+				else
+				{
+					_model.pause();
+				}
 			}
 			else
 			{
-				//_needsRestart = true;
 				_view.showVideo();
 				_model.bufferFull();
-				//_nshd.resume();	
 			}
 		}
 
